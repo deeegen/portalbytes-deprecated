@@ -228,6 +228,27 @@
         filter: drop-shadow(0 0 12px #fffb00);
       }
 
+      .url-examples {
+        margin: 40px auto 0 auto;
+        max-width: 540px;
+        width: 90%;
+        text-align: center;
+        font-size: 0.9em;
+        opacity: 0.8;
+        line-height: 1.6;
+      }
+
+      .url-examples .example {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 12px;
+        margin: 5px;
+        border-radius: 15px;
+        display: inline-block;
+        font-family: monospace;
+        font-size: 0.85em;
+        border: 1px solid rgba(255, 251, 0, 0.3);
+      }
+
       @media (max-width: 700px) {
         .header {
           font-size: 2em;
@@ -241,6 +262,9 @@
         .nav a {
           padding: 10px 18px;
           font-size: 1em;
+        }
+        .url-examples {
+          font-size: 0.8em;
         }
       }
     </style>
@@ -258,11 +282,19 @@
       <div class="search">
         <input
           type="text"
-          placeholder="Enter URL and hit the icon on the right..."
-          maxlength="50"/>
+          placeholder="Enter URL with path (e.g., example.com/path/page.html)..."
+          maxlength="200"/>
         <div class="icon-btn" onclick="getSite()">
           <i class="fas fa-search"></i>
         </div>
+      </div>
+
+      <div class="url-examples">
+        <div>Examples:</div>
+        <span class="example">google.com</span>
+        <span class="example">github.com/user/repo</span>
+        <span class="example">example.com/path/image.png</span>
+        <span class="example">site.com/api/data?param=value</span>
       </div>
 
       <div class="nav">
@@ -279,25 +311,75 @@
     <script>
       function getSite() {
         const rawInput = document.querySelector("input").value.trim();
+        
+        if (!rawInput) {
+          alert("Please enter a URL.");
+          return;
+        }
 
         let normalizedUrl;
 
         try {
+          // Handle different input formats
           if (rawInput.startsWith("//")) {
             normalizedUrl = new URL("https:" + rawInput);
           } else if (!/^https?:\/\//i.test(rawInput)) {
-            normalizedUrl = new URL("https://" + rawInput);
+            // Check if it looks like a domain or path
+            if (rawInput.includes('/') || rawInput.includes('.')) {
+              normalizedUrl = new URL("https://" + rawInput);
+            } else {
+              // Assume it's a search term or incomplete domain
+              normalizedUrl = new URL("https://" + rawInput + ".com");
+            }
           } else {
             normalizedUrl = new URL(rawInput);
           }
+
+          // Validate the URL has a proper hostname
+          if (!normalizedUrl.hostname || normalizedUrl.hostname.length < 2) {
+            throw new Error("Invalid hostname");
+          }
+
         } catch (err) {
           console.error("Invalid URL:", err);
-          alert("Please enter a valid URL.");
+          alert("Please enter a valid URL. Examples:\n• google.com\n• github.com/user/repo\n• example.com/path/file.html");
           return;
         }
 
-        const encodedValue = btoa(normalizedUrl.href);
-        window.location.href = `/web/_${encodedValue}_/`;
+        // Create the proxified URL
+        const fullUrl = normalizedUrl.href;
+        const encodedOrigin = btoa(normalizedUrl.origin);
+        const pathAndQuery = fullUrl.substring(normalizedUrl.origin.length);
+        
+        // Construct the proxy URL: /web/_[base64_origin]_/[path]
+        const proxyUrl = `/web/_${encodedOrigin}_${pathAndQuery}`;
+        
+        console.log("Original URL:", fullUrl);
+        console.log("Proxy URL:", proxyUrl);
+        
+        window.location.href = proxyUrl;
+      }
+
+      // Enhanced URL validation and processing
+      function validateAndProcessUrl(input) {
+        // Remove leading/trailing whitespace
+        input = input.trim();
+        
+        // Handle common URL patterns
+        const patterns = [
+          // Full URLs
+          /^https?:\/\/.+/i,
+          // Protocol-relative URLs
+          /^\/\/.+/,
+          // Domain with path
+          /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/.*)?$/,
+          // IP addresses with optional path
+          /^(?:\d{1,3}\.){3}\d{1,3}(:\d+)?(\/.*)?$/,
+          // Localhost variations
+          /^localhost(:\d+)?(\/.*)?$/i
+        ];
+
+        return patterns.some(pattern => pattern.test(input));
       }
 
       document.addEventListener("DOMContentLoaded", () => {
@@ -308,6 +390,16 @@
             if (event.key === "Enter") {
               event.preventDefault();
               getSite();
+            }
+          });
+
+          // Real-time URL validation feedback
+          inputField.addEventListener("input", (event) => {
+            const value = event.target.value.trim();
+            if (value && !validateAndProcessUrl(value) && value.length > 3) {
+              inputField.style.borderColor = "#ff6b6b";
+            } else {
+              inputField.style.borderColor = "#fffb00";
             }
           });
         } else {

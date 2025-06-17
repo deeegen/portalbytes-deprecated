@@ -342,11 +342,10 @@
           return;
         }
 
+        // Enhanced URL encoding: encode the complete URL
         const fullUrl = normalizedUrl.href;
-        const encodedOrigin = btoa(normalizedUrl.origin);
-        const pathAndQuery = fullUrl.substring(normalizedUrl.origin.length);
-        
-        const proxyUrl = `/web/_${encodedOrigin}_${pathAndQuery}`;
+        const encodedFullUrl = btoa(fullUrl);
+        const proxyUrl = `/web/_${encodedFullUrl}_/`;
         
         console.log("Original URL:", fullUrl);
         console.log("Proxy URL:", proxyUrl);

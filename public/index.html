@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>peeproxee</title>
+    <title>PortalBytes</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Comic+Neue:wght@700&display=swap"
       rel="stylesheet"
@@ -17,13 +17,11 @@
         width: 100%;
         overflow-x: hidden;
       }
-
       body {
         background: linear-gradient(135deg, #7c3aed 0%, #d946ef 100%);
         font-family: "Comic Neue", Arial, sans-serif;
         color: #fff;
       }
-
       .blob-container {
         position: fixed;
         inset: 0;
@@ -92,7 +90,6 @@
           filter: blur(1px) brightness(1.1);
         }
       }
-
       /* Main content wrapper */
       .main-container {
         width: 100%;
@@ -102,7 +99,6 @@
         z-index: 2;
         box-sizing: border-box;
       }
-
       .header {
         text-align: center;
         margin-top: 40px;
@@ -117,7 +113,6 @@
         position: relative;
         z-index: 2;
       }
-
       .bar {
         width: 70%;
         max-width: 100%;
@@ -133,7 +128,6 @@
         );
         box-shadow: 0 0 14px 4px #fffb00, 0 0 24px 8px #7c3aed66;
       }
-
       .search {
         display: flex;
         align-items: center;
@@ -187,7 +181,127 @@
         color: #7c3aed;
         text-shadow: 0 0 8px #fff, 0 0 14px #fffb00;
       }
-
+      /* --- Bookmark button special variant --- */
+      .bookmark-btn {
+        margin-left: 10px;
+        background: linear-gradient(135deg, #ff00ea 40%, #fffb00 100%);
+        box-shadow: 0 0 12px 3px #ff00ea, 0 0 6px #fffb00;
+        transition: background 0.13s, box-shadow 0.13s, transform 0.18s;
+      }
+      .bookmark-btn:hover {
+        transform: scale(1.13) rotate(8deg);
+        background: linear-gradient(135deg, #fffb00 32%, #ff00ea 100%);
+        box-shadow: 0 0 30px 8px #ff00ead0, 0 0 16px #fffb00;
+      }
+      .bookmark-btn i {
+        color: #ff00ea;
+        text-shadow: 0 0 10px #fffb00, 0 0 18px #fff;
+      }
+      .bookmark-container {
+        margin: 34px auto 0 auto;
+        max-width: 540px;
+        width: 90%;
+      }
+      .bookmark-header {
+        font-size: 0.95em;
+        opacity: 0.8;
+        letter-spacing: 1px;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+      .bookmarks-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 7px;
+        padding-bottom: 4px;
+        overflow-x: auto;
+        overflow-y: auto;
+        min-height: 22px;
+        max-height: 144px;
+        transition: max-height 0.2s;
+      }
+      .bookmark {
+        background: rgba(255, 255, 255, 0.13);
+        padding: 7px 14px 7px 13px;
+        border-radius: 19px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.93em;
+        font-family: monospace;
+        border: 1px solid rgba(255, 251, 0, 0.3);
+        color: #fff;
+        position: relative;
+        max-width: 255px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        margin-bottom: 1.5px;
+        transition: background 0.15s, box-shadow 0.15s;
+        box-shadow: 0 1px 6px 0 #7c3aed1a;
+      }
+      .bookmark:hover {
+        background: #fffb00cc;
+        color: #7c3aed;
+        box-shadow: 0 2px 18px #fffb0085;
+        z-index: 3;
+      }
+      .bookmark-title {
+        flex: 1 1 auto;
+        min-width: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        margin-right: 9px;
+        font-family: "Comic Neue", Arial, sans-serif;
+        font-size: 1em;
+      }
+      .bookmark-url {
+        opacity: 0.62;
+        font-size: 0.83em;
+        margin-left: 2px;
+        max-width: 108px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: inherit;
+        margin-right: 6px;
+      }
+      .del-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        margin-left: 1px;
+        color: #fa278e;
+        font-size: 1.17em;
+        transition: color 0.18s;
+        opacity: 0.91;
+      }
+      .del-btn:hover {
+        color: #ff0033;
+        opacity: 1;
+      }
+      @media (max-width: 700px) {
+        .header {
+          font-size: 2em;
+        }
+        .bar {
+          width: 90%;
+        }
+        .nav {
+          gap: 20px;
+        }
+        .nav a {
+          padding: 10px 18px;
+          font-size: 1em;
+        }
+        .bookmark-header {
+          font-size: 0.9em;
+        }
+        .bookmarks-list {
+          max-height: 105px;
+        }
+      }
       .nav {
         margin: 60px auto 0 auto;
         display: flex;
@@ -216,7 +330,6 @@
         color: #fff;
         transform: scale(1.08) skew(-7deg, 0deg);
       }
-
       .pixel {
         position: absolute;
         left: 50%;
@@ -227,46 +340,6 @@
         opacity: 0.95;
         filter: drop-shadow(0 0 12px #fffb00);
       }
-
-      .url-examples {
-        margin: 40px auto 0 auto;
-        max-width: 540px;
-        width: 90%;
-        text-align: center;
-        font-size: 0.9em;
-        opacity: 0.8;
-        line-height: 1.6;
-      }
-
-      .url-examples .example {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 8px 12px;
-        margin: 5px;
-        border-radius: 15px;
-        display: inline-block;
-        font-family: monospace;
-        font-size: 0.85em;
-        border: 1px solid rgba(255, 251, 0, 0.3);
-      }
-
-      @media (max-width: 700px) {
-        .header {
-          font-size: 2em;
-        }
-        .bar {
-          width: 90%;
-        }
-        .nav {
-          gap: 20px;
-        }
-        .nav a {
-          padding: 10px 18px;
-          font-size: 1em;
-        }
-        .url-examples {
-          font-size: 0.8em;
-        }
-      }
     </style>
   </head>
   <body>
@@ -274,103 +347,250 @@
       <div class="blob blob-yellow" aria-hidden="true"></div>
       <div class="blob blob-pink" aria-hidden="true"></div>
     </div>
-
     <div class="main-container">
       <div class="header">PortalBytes V1</div>
       <div class="bar"></div>
-
       <div class="search">
         <input
           type="text"
           placeholder="Enter URL with path (e.g., example.com/path/page.html)..."
-          maxlength="200"/>
-        <div class="icon-btn" onclick="getSite()">
+          maxlength="200"
+        />
+        <div class="icon-btn" onclick="getSite()" title="Visit">
           <i class="fas fa-search"></i>
         </div>
+        <div
+          class="icon-btn bookmark-btn"
+          onclick="addBookmarkFromInput()"
+          title="Add bookmark"
+        >
+          <i class="fas fa-bookmark"></i>
+        </div>
       </div>
-
-      <div class="url-examples">
-        <div>Examples:</div>
-        <span class="example">google.com</span>
-        <span class="example">github.com/user/repo</span>
-        <span class="example">example.com/path/image.png</span>
-        <span class="example">site.com/api/data?param=value</span>
+      <div class="bookmark-container">
+        <div class="bookmark-header">Bookmarks</div>
+        <div class="bookmarks-list" id="bookmarks-list">
+          <!-- Bookmarks will be rendered here -->
+        </div>
       </div>
-
       <div class="nav">
         <a href="#">💾 Github</a>
         <a href="#">🌐 About me</a>
       </div>
     </div>
-
-    <img src="https://i.pinimg.com/originals/e4/96/0c/e4960c1d084132279f17ca869846c00c.gif"
-      width="64" height="64" class="pixel"/>
-
+    <img
+      src="https://media.tenor.com/pXEDrZV2s4QAAAAj/star-spinning.gif"
+      width="64"
+      height="64"
+      class="pixel"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-
     <script>
+      // --- Bookmarks logic ---
+      const LOCAL_KEY = "portalBytesBookmarksV1";
+      const EXAMPLES = [
+        { url: "https://google.com", title: "" },
+        { url: "https://github.com/user/repo", title: "" },
+        { url: "https://example.com/path/image.png", title: "" },
+        { url: "https://site.com/api/data?param=value", title: "" },
+      ];
+
+      // Always try `https://` when not present, like getSite behaves
+      function normalizeInputUrl(rawInput) {
+        let normalizedUrl;
+        try {
+          if (rawInput.startsWith("//"))
+            normalizedUrl = new URL("https:" + rawInput);
+          else if (!/^https?:\/\//i.test(rawInput)) {
+            if (rawInput.includes("/") || rawInput.includes("."))
+              normalizedUrl = new URL("https://" + rawInput);
+            else normalizedUrl = new URL("https://" + rawInput + ".com");
+          } else {
+            normalizedUrl = new URL(rawInput);
+          }
+          if (!normalizedUrl.hostname || normalizedUrl.hostname.length < 2)
+            throw new Error("Invalid hostname");
+        } catch (e) {
+          return null;
+        }
+        return normalizedUrl.href;
+      }
+
+      function fetchBookmarkTitle(url) {
+        // Use a CORS bypass via a public endpoint if offline (since fetch to origins will otherwise fail in local demo)
+        // In production, you may want your own server to handle this.
+        return new Promise((resolve) => {
+          // Try to fetch the title, fallback to host/path.
+          fetch("https://corsproxy.io/?" + encodeURIComponent(url))
+            .then((r) => r.text())
+            .then((html) => {
+              const match = html.match(/<title>(.*?)<\/title>/i);
+              if (match) resolve(match[1].trim());
+              else resolve("");
+            })
+            .catch(() => resolve(""));
+        });
+      }
+
+      function saveBookmarks(list) {
+        localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+      }
+
+      function loadBookmarks() {
+        try {
+          let bms = JSON.parse(localStorage.getItem(LOCAL_KEY));
+          if (!Array.isArray(bms)) throw new Error("Bookmarks not an array");
+          return bms;
+        } catch {
+          return null;
+        }
+      }
+
+      function renderBookmarks() {
+        const list = document.getElementById("bookmarks-list");
+        let bms = loadBookmarks();
+        if (!Array.isArray(bms)) bms = [];
+        // Smart formatting: if >6, allow scroll, more compact
+        if (bms.length > 6) {
+          list.style.maxHeight = "144px";
+        } else {
+          list.style.maxHeight = "";
+        }
+        list.innerHTML = "";
+        bms.forEach((bm, idx) => {
+          const el = document.createElement("span");
+          el.className = "bookmark";
+          el.title = (bm.title?.length > 0 ? bm.title + " · " : "") + bm.url;
+          el.onclick = (e) => {
+            if (e.target.classList.contains("del-btn")) return;
+            goToUrlProxy(bm.url);
+          };
+          if (bm.title && bm.title.length > 0) {
+            const tDiv = document.createElement("span");
+            tDiv.className = "bookmark-title";
+            tDiv.textContent =
+              bm.title.length > 35 ? bm.title.slice(0, 32) + "…" : bm.title;
+            el.appendChild(tDiv);
+          }
+          const uDiv = document.createElement("span");
+          uDiv.className = "bookmark-url";
+          const displayUrl = bm.url
+            .replace(/^https?:\/\//, "")
+            .replace(/\/$/, "");
+          uDiv.textContent =
+            displayUrl.length > 36 ? displayUrl.slice(0, 34) + "…" : displayUrl;
+          el.appendChild(uDiv);
+
+          const delBtn = document.createElement("button");
+          delBtn.className = "del-btn";
+          delBtn.title = "Delete";
+          delBtn.innerHTML = "&times;";
+          delBtn.onclick = function (ev) {
+            ev.stopPropagation();
+            deleteBookmark(idx);
+          };
+          el.appendChild(delBtn);
+
+          list.appendChild(el);
+        });
+      }
+
+      async function addBookmarkFromInput() {
+        const input = document.querySelector(".search input");
+        const url = normalizeInputUrl(input.value.trim());
+        if (!url) {
+          alert("Please enter a valid URL.");
+          return;
+        }
+        let bookmarks = loadBookmarks() || [];
+        if (bookmarks.find((b) => b.url === url)) {
+          alert("Already bookmarked.");
+          return;
+        }
+        // Pre-load title as ""
+        bookmarks.push({ url: url, title: "" });
+        saveBookmarks(bookmarks);
+        renderBookmarks();
+        // Fetch title async and re-render
+        const idx = bookmarks.length - 1;
+        fetchBookmarkTitle(url).then((title) => {
+          let bookmarks2 = loadBookmarks() || [];
+          if (bookmarks2[idx] && bookmarks2[idx].url === url) {
+            bookmarks2[idx].title = title || "";
+            saveBookmarks(bookmarks2);
+            renderBookmarks();
+          }
+        });
+      }
+
+      function deleteBookmark(idx) {
+        let bms = loadBookmarks() || [];
+        bms.splice(idx, 1);
+        saveBookmarks(bms);
+        renderBookmarks();
+      }
+
+      function goToUrlProxy(rawInput) {
+        const url = normalizeInputUrl(rawInput);
+        if (!url) {
+          alert("Invalid URL.");
+          return;
+        }
+        const encodedFullUrl = btoa(url);
+        const proxyUrl = `/web/_${encodedFullUrl}_/`;
+        window.location.href = proxyUrl;
+      }
+
+      // ---- normal search logic ---
       function getSite() {
         const rawInput = document.querySelector("input").value.trim();
-        
         if (!rawInput) {
           alert("Please enter a URL.");
           return;
         }
-
-        let normalizedUrl;
-
-        try {
-          if (rawInput.startsWith("//")) {
-            normalizedUrl = new URL("https:" + rawInput);
-          } else if (!/^https?:\/\//i.test(rawInput)) {
-            if (rawInput.includes('/') || rawInput.includes('.')) {
-              normalizedUrl = new URL("https://" + rawInput);
-            } else {
-              normalizedUrl = new URL("https://" + rawInput + ".com");
-            }
-          } else {
-            normalizedUrl = new URL(rawInput);
-          }
-
-          if (!normalizedUrl.hostname || normalizedUrl.hostname.length < 2) {
-            throw new Error("Invalid hostname");
-          }
-
-        } catch (err) {
-          console.error("Invalid URL:", err);
-          alert("Please enter a valid URL. Examples:\n• google.com\n• github.com/user/repo\n• example.com/path/file.html");
+        let normalizedUrl = normalizeInputUrl(rawInput);
+        if (!normalizedUrl) {
+          alert(
+            "Please enter a valid URL. Examples:\n• google.com\n• github.com/user/repo\n• example.com/path/file.html"
+          );
           return;
         }
-
-        // Enhanced URL encoding: encode the complete URL
-        const fullUrl = normalizedUrl.href;
-        const encodedFullUrl = btoa(fullUrl);
+        const encodedFullUrl = btoa(normalizedUrl);
         const proxyUrl = `/web/_${encodedFullUrl}_/`;
-        
-        console.log("Original URL:", fullUrl);
-        console.log("Proxy URL:", proxyUrl);
-        
         window.location.href = proxyUrl;
       }
 
+      // example: returns if string "looks like" a url (useful for live border checking)
       function validateAndProcessUrl(input) {
         input = input.trim();
-        
-        // Handle common URL patterns
         const patterns = [
           /^https?:\/\/.+/i,
           /^\/\/.+/,
           /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/.*)?$/,
           /^(?:\d{1,3}\.){3}\d{1,3}(:\d+)?(\/.*)?$/,
-          /^localhost(:\d+)?(\/.*)?$/i
+          /^localhost(:\d+)?(\/.*)?$/i,
         ];
-
-        return patterns.some(pattern => pattern.test(input));
+        return patterns.some((pattern) => pattern.test(input));
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const inputField = document.querySelector("input");
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Init bookmarks storage with EXAMPLES if never set
+        let bookmarks = loadBookmarks();
+        if (!bookmarks) {
+          // First time: seed, and attempt to fetch titles for demo
+          let newBms = [];
+          for (let e of EXAMPLES) {
+            let title = "";
+            try {
+              title = await fetchBookmarkTitle(e.url);
+            } catch {}
+            newBms.push({ url: e.url, title });
+          }
+          saveBookmarks(newBms);
+        }
+        renderBookmarks();
 
+        const inputField = document.querySelector("input");
         if (inputField) {
           inputField.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {

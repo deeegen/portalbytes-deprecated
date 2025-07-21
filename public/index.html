@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PortalBytes</title>
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Comic+Neue:wght@700&display=swap"
       rel="stylesheet"
@@ -91,7 +91,6 @@
           filter: blur(1px) brightness(1.1);
         }
       }
-      /* Main content wrapper */
       .main-container {
         width: 100%;
         max-width: 100vw;
@@ -182,7 +181,6 @@
         color: #7c3aed;
         text-shadow: 0 0 8px #fff, 0 0 14px #fffb00;
       }
-      /* --- Bookmark button special variant --- */
       .bookmark-btn {
         margin-left: 10px;
         background: linear-gradient(135deg, #ff00ea 40%, #fffb00 100%);
@@ -257,16 +255,6 @@
         margin-right: 9px;
         font-family: "Comic Neue", Arial, sans-serif;
         font-size: 1em;
-      }
-      .bookmark-url {
-        opacity: 0.62;
-        font-size: 0.83em;
-        margin-left: 2px;
-        max-width: 108px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-family: inherit;
-        margin-right: 6px;
       }
       .del-btn {
         background: transparent;
@@ -379,24 +367,14 @@
         <a href="#">🌐 About me</a>
       </div>
     </div>
-    <img
-      src="assets/star-spinning.gif"
-      width="64"
-      height="64"
-      class="pixel"
-    />
+    <img src="assets/star-spinning.gif" width="64" height="64" class="pixel" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <script>
       // --- Bookmarks logic ---
       const LOCAL_KEY = "portalBytesBookmarksV1";
-      const EXAMPLES = [
-        { url: "https://google.com", title: "" },
-        { url: "https://github.com/user/repo", title: "" },
-        { url: "https://example.com/path/image.png", title: "" },
-        { url: "https://site.com/api/data?param=value", title: "" },
-      ];
+      // Default EXAMPLES: Update with a real title on load
+      const EXAMPLES = [{ url: "https://github.com/deeegen", title: "" }];
 
-      // Always try `https://` when not present, like getSite behaves
       function normalizeInputUrl(rawInput) {
         let normalizedUrl;
         try {
@@ -418,19 +396,20 @@
       }
 
       function fetchBookmarkTitle(url) {
-        // Use a CORS bypass via a public endpoint if offline (since fetch to origins will otherwise fail in local demo)
-        // In production, you may want your own server to handle this.
-        return new Promise((resolve) => {
-          // Try to fetch the title, fallback to host/path.
-          fetch("https://corsproxy.io/?" + encodeURIComponent(url))
-            .then((r) => r.text())
-            .then((html) => {
-              const match = html.match(/<title>(.*?)<\/title>/i);
-              if (match) resolve(match[1].trim());
-              else resolve("");
-            })
-            .catch(() => resolve(""));
-        });
+        // Use LinkPreview to fetch the title
+        const apiKey = "50efa92dad0ab223835b010c0de1ceae";
+        return fetch(
+          "https://api.linkpreview.net/?key=" +
+            encodeURIComponent(apiKey) +
+            "&q=" +
+            encodeURIComponent(url)
+        )
+          .then((res) => {
+            if (!res.ok) throw new Error("No response");
+            return res.json();
+          })
+          .then((data) => data.title || "")
+          .catch(() => "");
       }
 
       function saveBookmarks(list) {
@@ -472,15 +451,12 @@
             tDiv.textContent =
               bm.title.length > 35 ? bm.title.slice(0, 32) + "…" : bm.title;
             el.appendChild(tDiv);
+          } else {
+            const tDiv = document.createElement("span");
+            tDiv.className = "bookmark-title";
+            tDiv.textContent = "(no title)";
+            el.appendChild(tDiv);
           }
-          const uDiv = document.createElement("span");
-          uDiv.className = "bookmark-url";
-          const displayUrl = bm.url
-            .replace(/^https?:\/\//, "")
-            .replace(/\/$/, "");
-          uDiv.textContent =
-            displayUrl.length > 36 ? displayUrl.slice(0, 34) + "…" : displayUrl;
-          el.appendChild(uDiv);
 
           const delBtn = document.createElement("button");
           delBtn.className = "del-btn";
@@ -508,20 +484,18 @@
           alert("Already bookmarked.");
           return;
         }
-        // Pre-load title as ""
-        bookmarks.push({ url: url, title: "" });
+
+        // 1. Fetch title FIRST, do not render bookmark until title is ready
+        let title = "";
+        try {
+          title = await fetchBookmarkTitle(url);
+        } catch (e) {
+          title = "";
+        }
+        // 2. Now add the bookmark only with correct title
+        bookmarks.push({ url: url, title: title || "" });
         saveBookmarks(bookmarks);
         renderBookmarks();
-        // Fetch title async and re-render
-        const idx = bookmarks.length - 1;
-        fetchBookmarkTitle(url).then((title) => {
-          let bookmarks2 = loadBookmarks() || [];
-          if (bookmarks2[idx] && bookmarks2[idx].url === url) {
-            bookmarks2[idx].title = title || "";
-            saveBookmarks(bookmarks2);
-            renderBookmarks();
-          }
-        });
       }
 
       function deleteBookmark(idx) {
@@ -561,7 +535,6 @@
         window.location.href = proxyUrl;
       }
 
-      // example: returns if string "looks like" a url (useful for live border checking)
       function validateAndProcessUrl(input) {
         input = input.trim();
         const patterns = [
@@ -575,10 +548,9 @@
       }
 
       document.addEventListener("DOMContentLoaded", async () => {
-        // Init bookmarks storage with EXAMPLES if never set
+        // Init bookmarks storage with example
         let bookmarks = loadBookmarks();
         if (!bookmarks) {
-          // First time: seed, and attempt to fetch titles for demo
           let newBms = [];
           for (let e of EXAMPLES) {
             let title = "";

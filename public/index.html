@@ -397,6 +397,7 @@
 
       function fetchBookmarkTitle(url) {
         // Use LinkPreview to fetch the title
+        // You can replace the apiKey below with your own!
         const apiKey = "50efa92dad0ab223835b010c0de1ceae";
         return fetch(
           "https://api.linkpreview.net/?key=" +
@@ -457,6 +458,13 @@
             tDiv.textContent = "(no title)";
             el.appendChild(tDiv);
           }
+          // Do NOT show url in bookmarks list per user request!
+          // Remove the display of the url:
+          // const uDiv = document.createElement("span");
+          // uDiv.className = "bookmark-url";
+          // const displayUrl = bm.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+          // uDiv.textContent = displayUrl.length > 36 ? displayUrl.slice(0, 34) + "…" : displayUrl;
+          // el.appendChild(uDiv);
 
           const delBtn = document.createElement("button");
           delBtn.className = "del-btn";
@@ -548,7 +556,7 @@
       }
 
       document.addEventListener("DOMContentLoaded", async () => {
-        // Init bookmarks storage with example
+        // Init bookmarks storage with EXAMPLES if never set
         let bookmarks = loadBookmarks();
         if (!bookmarks) {
           let newBms = [];

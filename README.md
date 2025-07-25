@@ -14,4 +14,5 @@
  3. Improved CSP handling
  4. Improved cookie scoping
  5. Fixed website blocks
+##
 ![Newest Version V1](https://github.com/deeegen/portalbytes-web-proxy/blob/main/public/assets/screenshot.png?raw=true)

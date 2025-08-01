@@ -1,11 +1,15 @@
+// index.js
+
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
 const { URL } = require("url");
 const logger = require("./lib/logger");
 
+const ProxyServer = require("./lib/ProxyServer");
+
 // CONFIGURATION
-const prefix = "/web";
+const prefix = "/web/";
 const localAddresses = [];
 const blockedHostnames = ["https://bad-website.com"];
 const ssl = false;
@@ -13,7 +17,7 @@ const port = 6969;
 const index_file = "index.html";
 // END OF CONFIGURATION
 
-const proxy = new (require("./lib/index"))(prefix, {
+const proxy = new ProxyServer(prefix, {
   localAddress: localAddresses,
   blacklist: blockedHostnames,
 });
@@ -86,6 +90,9 @@ const server = ssl
   : http.createServer(app);
 
 proxy.ws(server);
+
 server.listen(process.env.PORT || port, () =>
-  console.log(`${ssl ? "https://" : "http://"}0.0.0.0:${port}`)
+  console.log(
+    `${ssl ? "https://" : "http://"}0.0.0.0:${process.env.PORT || port}`
+  )
 );

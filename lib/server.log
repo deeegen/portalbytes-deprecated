@@ -1,0 +1,7 @@
+[2025-08-01T14:14:42.826Z] [INFO] Received request: GET /web/client_hook
+[2025-08-01T14:14:53.249Z] [INFO] Received request: GET /web/client_hook
+[2025-08-01T14:15:03.720Z] [INFO] Received request: GET /web/client_hook
+[2025-08-01T14:15:07.882Z] [INFO] Received request: GET /web/client_hook
+[2025-08-01T14:15:08.599Z] [INFO] Received request: POST /api/event
+[2025-08-01T14:15:18.360Z] [INFO] Received request: POST /api/event
+[2025-08-01T14:15:25.476Z] [INFO] Received request: POST /api/event

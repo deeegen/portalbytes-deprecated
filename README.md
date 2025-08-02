@@ -1,4 +1,8 @@
-# PortalBytes V1
+# PortalBytes V1 (deprecated)
+# Reason(s) for deprecation
+## - outdated backend
+## - Messy files
+## - Pretty broken
 ## What does PortalBytes have to offer?
 
  - Unique frontend design
